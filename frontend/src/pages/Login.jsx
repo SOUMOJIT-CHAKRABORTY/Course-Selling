@@ -6,36 +6,29 @@ import {
   Grid,
   Paper,
   TextField,
-  // Typography,
+  Typography,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useState } from "react";
-// import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Authenticated } from "../Autherticate";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
 
-  const storeToken = (token) => {
-    const exists = localStorage.getItem("token");
-    if (exists) {
-      localStorage.removeItem("token");
-      localStorage.setItem("token", token);
-    }
-    localStorage.setItem("token", token);
-  };
+  const navigate = useNavigate();
+  const { doLogin, authenticated } = useContext(Authenticated);
+
   const handleLogin = () => {
     const payload = { username, password };
-    const headers = new Headers();
-    headers.append("data", JSON.stringify(payload));
-    fetch("http://localhost:3000/users/login", {
-      method: "POST",
-      headers: headers,
-    })
-      .then((res) => res.json())
-      .then((data) => storeToken(data.token));
+    doLogin(payload);
+    setTimeout(() => {
+      console.log(authenticated);
+    });
   };
+
   const paperStyle = {
     padding: 20,
     height: "70vh",
@@ -44,58 +37,64 @@ const Login = () => {
   };
   const avatarStyle = { backgroundColor: "#007FFF" };
   const btnstyle = { margin: "8px 0" };
+
   return (
-    <Grid>
-      <Paper elevation={10} style={paperStyle}>
-        <Grid align="center" style={{ marginBottom: 20 }}>
-          <Avatar style={avatarStyle}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <h2 style={{ marginTop: 10 }}>Login</h2>
-        </Grid>
-        <TextField
-          label="Username"
-          onChange={(e) => setUsername(e.target.value)}
-          style={{ marginBottom: 20 }}
-          value={username}
-          placeholder="Enter username"
-          fullWidth
-          required
-        />
-        <TextField
-          label="Password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          placeholder="Enter password"
-          style={{ marginBottom: 30 }}
-          type={showPass ? "text" : "password"}
-          fullWidth
-          required
-        />
-        <FormControlLabel
-          control={<Checkbox name="checkedB" color="primary" />}
-          label="Show password"
-          onChange={() => setShowPass(!showPass)}
-        />
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          style={btnstyle}
-          fullWidth
-          onClick={handleLogin}
-        >
-          Login
-        </Button>
-        {/* <Typography>
-          <Link href="#">Forgot password ?</Link>
-        </Typography>
-        <Typography>
-          {" "}
-          Do you have an account ?<Link href="#">Sign Up</Link>
-        </Typography> */}
-      </Paper>
-    </Grid>
+    <div>
+      <Grid>
+        <Paper elevation={10} style={paperStyle}>
+          <Grid align="center" style={{ marginBottom: 20 }}>
+            <Avatar style={avatarStyle}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <h2 style={{ marginTop: 10 }}>Login</h2>
+          </Grid>
+          <TextField
+            label="Username"
+            onChange={(e) => setUsername(e.target.value)}
+            style={{ marginBottom: 20 }}
+            value={username}
+            placeholder="Enter username"
+            fullWidth
+            required
+          />
+          <TextField
+            label="Password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            placeholder="Enter password"
+            style={{ marginBottom: 30 }}
+            type={showPass ? "text" : "password"}
+            fullWidth
+            required
+          />
+          <FormControlLabel
+            control={<Checkbox name="checkedB" color="primary" />}
+            label="Show password"
+            onChange={() => setShowPass(!showPass)}
+          />
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            style={btnstyle}
+            fullWidth
+            onClick={handleLogin}
+          >
+            Login
+          </Button>
+          <Typography style={{ marginTop: 8 }}>
+            {" "}
+            {`Don't have an account ?`}{" "}
+            <span
+              className="text-blue-600 hover:cursor-pointer"
+              onClick={() => navigate("/signup")}
+            >
+              Sign Up
+            </span>
+          </Typography>
+        </Paper>
+      </Grid>
+    </div>
   );
 };
 

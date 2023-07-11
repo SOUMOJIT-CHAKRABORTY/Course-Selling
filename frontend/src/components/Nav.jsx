@@ -31,7 +31,7 @@ const Nav = () => {
       };
 
       findPage();
-    }, 1000);
+    }, 100);
   }, []);
   return (
     <div className="flex pb-10  justify-between items-center">
