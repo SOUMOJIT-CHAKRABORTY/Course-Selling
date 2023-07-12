@@ -41,7 +41,7 @@ const Home = () => {
                 color: "#fff",
               }}
             >
-              Learning
+              Courses
             </Button>
           </div>
         </div>

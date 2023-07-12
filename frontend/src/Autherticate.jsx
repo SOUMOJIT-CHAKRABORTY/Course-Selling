@@ -4,6 +4,7 @@ export const Authenticated = createContext();
 
 export const CheckAuth = (props) => {
   const [authenticated, setAuthenticated] = useState(false);
+  const [avatar, setAvatar] = useState("");
   const storeToken = (token) => {
     const exists = localStorage.getItem("token");
     if (exists) {
@@ -16,6 +17,7 @@ export const CheckAuth = (props) => {
 
   const doLogin = async (payload) => {
     try {
+      setAvatar(payload.username.split("")[0]);
       const headers = new Headers();
       headers.append("data", JSON.stringify(payload));
       const response = await fetch("http://localhost:3000/users/login", {
@@ -31,7 +33,14 @@ export const CheckAuth = (props) => {
     }
   };
 
-  const values = { doLogin, authenticated, setAuthenticated, storeToken };
+  const values = {
+    doLogin,
+    authenticated,
+    setAuthenticated,
+    storeToken,
+    avatar,
+    setAvatar,
+  };
 
   return (
     <Authenticated.Provider value={values}>

@@ -7,6 +7,10 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useContext, useEffect, useState } from "react";
 import { Authenticated } from "../Autherticate";
 
+import { deepOrange } from "@mui/material/colors";
+import { Avatar } from "@mui/material";
+import ShowAlert from "./ShowAlert";
+
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     right: -3,
@@ -19,7 +23,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const Nav = () => {
   const [hideNav, setHideNav] = useState(false);
   const navigate = useNavigate();
-  const { authenticated } = useContext(Authenticated);
+  const { authenticated, avatar } = useContext(Authenticated);
 
   useEffect(() => {
     setInterval(() => {
@@ -35,6 +39,8 @@ const Nav = () => {
       findPage();
     }, 100);
   }, []);
+
+  const message = "You are logged in";
   return (
     <div className="flex pb-10  justify-between items-center">
       <div
@@ -43,7 +49,7 @@ const Nav = () => {
       >
         Coursehere
       </div>
-      {!hideNav && (
+      {!hideNav && !authenticated && (
         <div className="flex space-x-6 ">
           <IconButton aria-label="cart">
             <StyledBadge badgeContent={0} color="secondary">
@@ -58,7 +64,12 @@ const Nav = () => {
           </Button>
         </div>
       )}
-      {authenticated && <div>authenticated</div>}
+      {authenticated && (
+        <div>
+          <Avatar sx={{ bgcolor: deepOrange[500] }}>{avatar}</Avatar>
+          <ShowAlert message={message} />
+        </div>
+      )}
     </div>
   );
 };
