@@ -19,12 +19,18 @@ const Login = () => {
   const [showPass, setShowPass] = useState(false);
 
   const navigate = useNavigate();
-  const { doLogin, setAuthenticated } = useContext(Authenticated);
+  const { doLogin, setAuthenticated, storeToken } = useContext(Authenticated);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const payload = { username, password };
-    doLogin(payload);
-    setAuthenticated(true);
+    const res = await doLogin(payload);
+    const data = await res.json();
+    if (data !== null) {
+      setAuthenticated(true);
+      storeToken(data.token);
+      console.log(data.message);
+      navigate("/");
+    }
   };
 
   const paperStyle = {

@@ -1,11 +1,9 @@
 import { createContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export const Authenticated = createContext();
 
 export const CheckAuth = (props) => {
   const [authenticated, setAuthenticated] = useState(false);
-  const navigate = useNavigate();
   const storeToken = (token) => {
     const exists = localStorage.getItem("token");
     if (exists) {
@@ -24,19 +22,16 @@ export const CheckAuth = (props) => {
         method: "POST",
         headers: headers,
       });
-      const data = await response.json();
+
       if (response.ok) {
-        storeToken(data.token);
-        setAuthenticated(true);
-        console.log(data.message);
-        navigate("/");
+        return response;
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  const values = { doLogin, authenticated, setAuthenticated };
+  const values = { doLogin, authenticated, setAuthenticated, storeToken };
 
   return (
     <Authenticated.Provider value={values}>
