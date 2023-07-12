@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { CourseDetails } from "../Context";
+import Cards from "../components/Cards";
 
 const ShowCourse = () => {
   const [courses] = useContext(CourseDetails);
@@ -13,17 +14,7 @@ const ShowCourse = () => {
           courses.map((course) => {
             return (
               <div key={course.id}>
-                <div>
-                  <h1>{course.title}</h1>
-                </div>
-                <div>
-                  <p>{course.description}</p>
-                </div>
-                <div>
-                  <h3>₹{course.price}</h3>
-                </div>
-                <br />
-                <br />
+                <Cards title={course.title} description={course.description} />
               </div>
             );
           })}

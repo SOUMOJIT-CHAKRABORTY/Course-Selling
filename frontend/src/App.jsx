@@ -9,20 +9,23 @@ import FindCourse from "./pages/FindCourse";
 // import { CourseData } from "./Context";
 import Nav from "./components/Nav";
 import { CheckAuth } from "./Autherticate";
+import { CourseData } from "./Context";
 
 function App() {
   return (
     <Router>
       <CheckAuth>
-        <Nav />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/courses" element={<ShowCourse />} />
-          <Route path="/courses/:id" element={<FindCourse />} />
-          <Route path="/courses/purchased" element={<PurchasedCourses />} />
-        </Routes>
+        <CourseData>
+          <Nav />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/courses" element={<ShowCourse />} />
+            <Route path="/courses/:id" element={<FindCourse />} />
+            <Route path="/courses/purchased" element={<PurchasedCourses />} />
+          </Routes>
+        </CourseData>
       </CheckAuth>
     </Router>
   );

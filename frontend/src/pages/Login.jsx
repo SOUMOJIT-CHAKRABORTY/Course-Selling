@@ -29,7 +29,7 @@ const Login = () => {
       setAuthenticated(true);
       storeToken(data.token);
       console.log(data.message);
-      navigate("/");
+      navigate("/courses");
     }
   };
 
