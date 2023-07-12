@@ -4,7 +4,8 @@ import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Authenticated } from "../Autherticate";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -18,6 +19,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const Nav = () => {
   const [hideNav, setHideNav] = useState(false);
   const navigate = useNavigate();
+  const { authenticated } = useContext(Authenticated);
 
   useEffect(() => {
     setInterval(() => {
@@ -56,6 +58,7 @@ const Nav = () => {
           </Button>
         </div>
       )}
+      {authenticated && <div>authenticated</div>}
     </div>
   );
 };

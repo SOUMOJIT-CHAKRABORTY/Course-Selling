@@ -19,14 +19,12 @@ const Login = () => {
   const [showPass, setShowPass] = useState(false);
 
   const navigate = useNavigate();
-  const { doLogin, authenticated } = useContext(Authenticated);
+  const { doLogin, setAuthenticated } = useContext(Authenticated);
 
   const handleLogin = () => {
     const payload = { username, password };
     doLogin(payload);
-    setTimeout(() => {
-      console.log(authenticated);
-    });
+    setAuthenticated(true);
   };
 
   const paperStyle = {

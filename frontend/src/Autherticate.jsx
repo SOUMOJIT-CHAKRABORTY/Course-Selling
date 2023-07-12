@@ -36,8 +36,10 @@ export const CheckAuth = (props) => {
     }
   };
 
+  const values = { doLogin, authenticated, setAuthenticated };
+
   return (
-    <Authenticated.Provider value={{ doLogin, authenticated }}>
+    <Authenticated.Provider value={values}>
       {props.children}
     </Authenticated.Provider>
   );
