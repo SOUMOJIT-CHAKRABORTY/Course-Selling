@@ -42,34 +42,34 @@ const Nav = () => {
 
   const message = "You are logged in";
   return (
-    <div className="flex pb-10  justify-between items-center">
+    <div className="flex pb-10  justify-between items-center z-100">
       <div
         onClick={() => navigate("/")}
         className="text-4xl font-semibold text-blue-500 cursor-pointer"
       >
         Coursehere
       </div>
-      {!hideNav && !authenticated && (
-        <div className="flex space-x-6 ">
-          <IconButton aria-label="cart">
-            <StyledBadge badgeContent={0} color="secondary">
-              <ShoppingCartIcon />
-            </StyledBadge>
-          </IconButton>
+      <div className="flex space-x-6 ">
+        <IconButton aria-label="cart">
+          <StyledBadge badgeContent={0} color="secondary">
+            <ShoppingCartIcon />
+          </StyledBadge>
+        </IconButton>
+        {!hideNav && !authenticated && (
           <Button onClick={() => navigate("/login")} variant="outlined">
             Login
           </Button>
-          <Button variant="contained" onClick={() => navigate("/signup")}>
-            Signup for free
-          </Button>
-        </div>
-      )}
-      {authenticated && (
-        <div>
-          <Avatar sx={{ bgcolor: deepOrange[500] }}>{avatar}</Avatar>
-          <ShowAlert message={message} />
-        </div>
-      )}
+        )}
+        <Button variant="contained" onClick={() => navigate("/signup")}>
+          {!authenticated ? `Signup for free` : `New Course`}
+        </Button>
+        {authenticated && (
+          <div>
+            <Avatar sx={{ bgcolor: deepOrange[500] }}>{avatar}</Avatar>
+            <ShowAlert message={message} />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
