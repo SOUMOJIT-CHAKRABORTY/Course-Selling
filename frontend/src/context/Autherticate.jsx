@@ -17,10 +17,11 @@ export const CheckAuth = (props) => {
 
   const doLogin = async (payload) => {
     try {
+      console.log(payload);
       setAvatar(payload.username.split("")[0]);
       const headers = new Headers();
       headers.append("data", JSON.stringify(payload));
-      const response = await fetch("http://localhost:3000/users/login", {
+      const response = await fetch("http://localhost:3000/users/checkauth", {
         method: "POST",
         headers: headers,
       });

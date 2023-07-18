@@ -4,12 +4,11 @@ import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useContext, useEffect, useState } from "react";
-import { Authenticated } from "../Autherticate";
+import { useEffect, useState } from "react";
 
-import { deepOrange } from "@mui/material/colors";
-import { Avatar } from "@mui/material";
-import ShowAlert from "./ShowAlert";
+// import { deepOrange } from "@mui/material/colors";
+// import { Avatar } from "@mui/material";
+// import ShowAlert from "./ShowAlert";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -23,7 +22,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const Nav = () => {
   const [hideNav, setHideNav] = useState(false);
   const navigate = useNavigate();
-  const { authenticated, avatar } = useContext(Authenticated);
 
   useEffect(() => {
     setInterval(() => {
@@ -40,7 +38,9 @@ const Nav = () => {
     }, 100);
   }, []);
 
-  const message = "You are logged in";
+  // const avatar = localStorage.getItem("avatar");
+
+  // const message = "You are logged in";
   return (
     <div className="flex pb-10  justify-between items-center z-100">
       <div
@@ -49,27 +49,27 @@ const Nav = () => {
       >
         Coursehere
       </div>
-      <div className="flex space-x-6 ">
-        <IconButton aria-label="cart">
-          <StyledBadge badgeContent={0} color="secondary">
-            <ShoppingCartIcon />
-          </StyledBadge>
-        </IconButton>
-        {!hideNav && !authenticated && (
+      {!hideNav && (
+        <div className="flex space-x-6 ">
+          <IconButton aria-label="cart">
+            <StyledBadge badgeContent={0} color="secondary">
+              <ShoppingCartIcon />
+            </StyledBadge>
+          </IconButton>
           <Button onClick={() => navigate("/login")} variant="outlined">
             Login
           </Button>
-        )}
-        <Button variant="contained" onClick={() => navigate("/signup")}>
-          {!authenticated ? `Signup for free` : `New Course`}
-        </Button>
-        {authenticated && (
-          <div>
-            <Avatar sx={{ bgcolor: deepOrange[500] }}>{avatar}</Avatar>
-            <ShowAlert message={message} />
-          </div>
-        )}
-      </div>
+          <Button variant="contained" onClick={() => navigate("/signup")}>
+            Get started
+          </Button>
+          {/* <div>
+          <Avatar sx={{ bgcolor: deepOrange[500], cursor: "pointer" }}>
+            {avatar}
+          </Avatar>
+          <ShowAlert message={message} />
+        </div> */}
+        </div>
+      )}
     </div>
   );
 };

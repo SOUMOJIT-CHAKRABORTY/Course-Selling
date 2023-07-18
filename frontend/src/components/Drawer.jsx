@@ -1,10 +1,10 @@
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import AppBar from "@mui/material/AppBar";
-import CssBaseline from "@mui/material/CssBaseline";
-import Toolbar from "@mui/material/Toolbar";
+// import Drawer from "@mui/material/Drawer";
+// import AppBar from "@mui/material/AppBar";
+// import CssBaseline from "@mui/material/CssBaseline";
+// import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
+// import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -17,7 +17,13 @@ import MailIcon from "@mui/icons-material/Mail";
 
 export default function ClippedDrawer() {
   return (
-    <Box sx={{ overflow: "auto" }}>
+    <Box
+      sx={{
+        overflow: "auto",
+        width: "200px",
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
+      }}
+    >
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>

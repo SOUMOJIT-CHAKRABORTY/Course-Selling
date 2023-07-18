@@ -9,27 +9,53 @@ import {
   Typography,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Authenticated } from "../Autherticate";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
+  const [avatar, setAvatar] = useState("");
 
   const navigate = useNavigate();
-  const { doLogin, setAuthenticated, storeToken } = useContext(Authenticated);
+
+  const storeToken = (token) => {
+    const exists = localStorage.getItem("token");
+    if (exists) {
+      localStorage.removeItem("token");
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.setItem("token", token);
+    }
+  };
 
   const handleLogin = async () => {
-    const payload = { username, password };
-    const res = await doLogin(payload);
-    const data = await res.json();
-    if (data !== null) {
-      setAuthenticated(true);
-      storeToken(data.token);
-      console.log(data.message);
-      navigate("/courses");
+    try {
+      const payload = {
+        username: username,
+        password: password,
+      };
+      setAvatar(payload.username.split("")[0]);
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      const response = await fetch("http://localhost:3000/users/login", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        storeToken(data.token);
+        localStorage.setItem("avatar", avatar);
+        navigate("/courses");
+        console.log(data.message);
+      } else {
+        console.log("Login failed");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 

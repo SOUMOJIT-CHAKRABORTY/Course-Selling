@@ -35,7 +35,7 @@ const SignUp = () => {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
-        "Content-Type": "application/header",
+        "Content-Type": "application/json",
       },
     });
     if (response.ok) {
