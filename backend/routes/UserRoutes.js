@@ -7,9 +7,12 @@ const {
   getCourses,
   signupUser,
   authenticateUser,
+  isLogin,
 } = require("../Controllers/UserController");
 
 router.post("/signup", signupUser);
+
+router.post("/checkauth", authenticateUser, isLogin);
 
 router.post("/login", loginUser);
 

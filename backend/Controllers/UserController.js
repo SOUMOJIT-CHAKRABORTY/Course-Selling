@@ -23,21 +23,26 @@ exports.authenticateUser = (req, res, next) => {
 
 exports.signupUser = async (req, res) => {
   const { username, password } = req.body;
-  const user = await User.findOne({ username });
-  if (user) {
-    res.status(403).json({ message: "User already exists" });
-  } else {
-    const newUser = new User({ username, password });
-    await newUser.save();
-    const token = jwt.sign({ username, role: "user" }, UserSecret, {
-      expiresIn: "1h",
-    });
-    res.json({ message: "User created successfully", token });
+  try {
+    const user = await User.findOne({ username });
+    if (user) {
+      return res.status(403).json({ message: "User already exists" });
+    } else {
+      const newUser = new User({ username, password });
+      await newUser.save();
+      const token = jwt.sign({ username, role: "user" }, UserSecret, {
+        expiresIn: "1h",
+      });
+      return res.json({ message: "User created successfully", token });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
 exports.loginUser = async (req, res) => {
-  const { username, password } = req.headers;
+  const { username, password } = req.body;
   const user = await User.findOne({ username, password });
   if (user) {
     const token = jwt.sign({ username, role: "user" }, UserSecret, {
@@ -80,4 +85,10 @@ exports.getPurchasedCourses = async (req, res) => {
   } else {
     res.status(403).json({ message: "User not found" });
   }
+};
+
+exports.isLogin = (req, res) => {
+  res.status(200).json({
+    message: "Logged in",
+  });
 };

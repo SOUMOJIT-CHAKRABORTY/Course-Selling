@@ -70,3 +70,7 @@ exports.getAllCourse = async (req, res) => {
   const courses = await Course.find({});
   res.json({ courses });
 };
+
+exports.isLogin = (req, res) => {
+  res.status(200).json({ message: "Logged in" });
+};

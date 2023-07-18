@@ -8,9 +8,12 @@ const {
   updateCourse,
   getAllCourse,
   authenticateAdmin,
+  isLogin,
 } = require("../Controllers/AdminController");
 
 router.post("/signup", signupAdmin);
+
+router.post("/checkauth", authenticateAdmin, isLogin);
 
 router.post("/login", loginAdmin);
 
