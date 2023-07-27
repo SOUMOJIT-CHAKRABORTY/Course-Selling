@@ -40,7 +40,7 @@ const ShowCourse = () => {
       </div>
     );
   }
-  console.log(courses);
+
   return (
     <div>
       <div className="flex space-x-10">
