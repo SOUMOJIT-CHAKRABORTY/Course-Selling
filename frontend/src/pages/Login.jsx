@@ -37,12 +37,16 @@ const Login = () => {
         password: password,
       };
       setAvatar(payload.username.split("")[0]);
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      const response = await fetch("http://localhost:3000/users/login", {
+      // const headers = new Headers();
+      // headers.append("Content-Type", "application/json");
+      const response = await fetch("http://localhost:3000/admin/login", {
         method: "POST",
-        headers: headers,
-        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+          username: `${username}`,
+          password: `${password}`,
+        },
+        // body: JSON.stringify(payload),
       });
 
       if (response.ok) {

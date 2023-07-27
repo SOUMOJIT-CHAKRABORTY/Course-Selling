@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Cards from "../components/Cards";
 // import { Authenticated } from "../context/Autherticate";
 // import PermanentDrawerLeft from "../components/Drawer";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Backdrop, Box, CircularProgress, Stack } from "@mui/material";
 
 const ShowCourse = () => {
   // const [courses] = useContext(CourseDetails);
@@ -15,7 +15,7 @@ const ShowCourse = () => {
       const token = localStorage.getItem("token");
       const headers = new Headers();
       headers.append("Authorization", `Bearer ${token}`);
-      const response = await fetch("http://localhost:3000/users/courses", {
+      const response = await fetch("http://localhost:3000/admin/courses", {
         method: "GET",
         headers: headers,
       });
@@ -43,22 +43,23 @@ const ShowCourse = () => {
 
   return (
     <div>
-      <div className="flex space-x-10">
+      <Stack spacing={4}>
         {/* <div>{authenticated && <PermanentDrawerLeft />}</div> */}
-        <div className="w-full">
+        <Stack direction={"row"} spacing={4}>
           {courses &&
             courses.map((course) => {
               return (
-                <div key={course.title}>
+                <Box key={course.title}>
                   <Cards
                     title={course.title}
                     description={course.description}
+                    courseId={course._id}
                   />
-                </div>
+                </Box>
               );
             })}
-        </div>
-      </div>
+        </Stack>
+      </Stack>
     </div>
   );
 };

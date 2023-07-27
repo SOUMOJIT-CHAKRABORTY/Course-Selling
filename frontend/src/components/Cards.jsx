@@ -16,6 +16,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -33,12 +34,41 @@ export default function Cards(props) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [description, setDescription] = useState(props.description);
+  const [title, setTitle] = useState(props.title);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDes, setNewDes] = useState("");
+  const [price, setPrice] = useState(400);
+  // const navigate = useNavigate()
+  const id = props.courseId;
 
   const handleEdit = async () => {
-    console.log("edit req");
+    const payload = {
+      title: newTitle,
+      description: newDes,
+      price: price,
+      imageLink: "https:linktoimage.com",
+      published: true,
+    };
+    const token = localStorage.getItem("token");
+    const headers = new Headers();
+    headers.append("Authorization", `Bearer ${token}`);
+    // headers.append("Content-Type", "application/json");
+    const response = await fetch(`http://localhost:3000/admin/courses/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(payload),
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      window.location.reload(true);
+    }
   };
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ width: 300 }}>
       <CardMedia
         sx={{ height: 140 }}
         image="/static/images/cards/contemplative-reptile.jpg"
@@ -78,11 +108,15 @@ export default function Cards(props) {
               <TextField
                 id="outlined-basic"
                 label="Course Name"
+                // value={title}
+                onChange={(e) => setNewTitle(e.target.value)}
                 variant="outlined"
               />
               <TextField
                 id="outlined-basic"
                 label="Course Description"
+                // value={description}
+                onChange={(e) => setNewDes(e.target.value)}
                 variant="outlined"
               />
               <FormControl fullWidth sx={{ m: 1 }}>
@@ -117,4 +151,5 @@ export default function Cards(props) {
 Cards.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  courseId: PropTypes,
 };

@@ -31,7 +31,7 @@ const SignUp = () => {
 
   const onSignup = async () => {
     const payload = { username, password };
-    const response = await fetch("http://localhost:3000/users/signup", {
+    const response = await fetch("http://localhost:3000/admin/signup", {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
