@@ -34,7 +34,9 @@ export default function Cards(props) {
   const [open, setOpen] = useState(false);
   const [opend, setOpend] = useState(false);
   const handleOpen = () => setOpen(true);
+  const handleOpend = () => setOpend(true);
   const handleClose = () => setOpen(false);
+  const handleClosed = () => setOpend(false);
   const [description, setDescription] = useState(props.description);
   const [title, setTitle] = useState(props.title);
   const [newTitle, setNewTitle] = useState("");
@@ -68,8 +70,21 @@ export default function Cards(props) {
       window.location.reload(true);
     }
   };
+
+  const handleDelete = async () => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`http://localhost:3000/admin/courses/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      window.location.reload(true);
+    }
+  };
   return (
-    <Card sx={{ width: 300 }}>
+    <Card sx={{ width: 300, height: 330 }}>
       <CardMedia
         sx={{ height: 140 }}
         image="/static/images/cards/contemplative-reptile.jpg"
@@ -87,7 +102,7 @@ export default function Cards(props) {
         <Button size="small" onClick={handleOpen}>
           Edit
         </Button>
-        <Button size="small" onClick={handleOpen}>
+        <Button size="small" onClick={handleOpend}>
           Delete
         </Button>
       </CardActions>
@@ -149,17 +164,20 @@ export default function Cards(props) {
       </Modal>
       <Modal
         open={opend}
-        onClose={handleClose}
+        onClose={handleClosed}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+            You sure you want to delete?
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          <Typography id="modal-modal-description" sx={{ mt: 2, mb: 5 }}>
+            Please confirm the delete.
           </Typography>
+          <Button variant="contained" color="error" onClick={handleDelete}>
+            Delete
+          </Button>
         </Box>
       </Modal>
     </Card>
