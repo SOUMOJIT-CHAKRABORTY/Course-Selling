@@ -37,8 +37,8 @@ export default function Cards(props) {
   const handleOpend = () => setOpend(true);
   const handleClose = () => setOpen(false);
   const handleClosed = () => setOpend(false);
-  const [description, setDescription] = useState(props.description);
-  const [title, setTitle] = useState(props.title);
+  // const [description, setDescription] = useState(props.description);
+  // const [title, setTitle] = useState(props.title);
   const [newTitle, setNewTitle] = useState("");
   const [newDes, setNewDes] = useState("");
   const [price, setPrice] = useState(400);
