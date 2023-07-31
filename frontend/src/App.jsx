@@ -6,16 +6,11 @@ import SignUp from "./pages/SignUp";
 import ShowCourse from "./pages/ShowCourse";
 import PurchasedCourses from "./pages/PurchasedCourses";
 import FindCourse from "./pages/FindCourse";
-// import { CourseData } from "./Context";
 import Nav from "./components/Nav";
-// import { CheckAuth } from "./Autherticate";
-// import { CourseData } from "./Context";
 
 function App() {
   return (
     <Router>
-      {/* <CheckAuth>
-        <CourseData> */}
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -25,8 +20,6 @@ function App() {
         <Route path="/courses/:id" element={<FindCourse />} />
         <Route path="/courses/purchased" element={<PurchasedCourses />} />
       </Routes>
-      {/* </CourseData>
-      </CheckAuth> */}
     </Router>
   );
 }

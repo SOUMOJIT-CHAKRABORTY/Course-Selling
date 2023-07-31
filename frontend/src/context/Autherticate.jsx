@@ -1,53 +1,33 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
 
-export const Authenticated = createContext();
+export const AuthContext = createContext();
 
-export const CheckAuth = (props) => {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [avatar, setAvatar] = useState("");
-  const storeToken = (token) => {
-    const exists = localStorage.getItem("token");
-    if (exists) {
-      localStorage.removeItem("token");
-      localStorage.setItem("token", token);
-    } else {
-      localStorage.setItem("token", token);
-    }
-  };
+export const authReducer = (prevState, action) => {
+  switch (action.type) {
+    case "LOGIN":
+      return {
+        user: action.payload,
+      };
+    case "LOGOUT":
+      return {
+        user: null,
+      };
+    default:
+      return prevState;
+  }
+};
 
-  const doLogin = async (payload) => {
-    try {
-      console.log(payload);
-      setAvatar(payload.username.split("")[0]);
-      const headers = new Headers();
-      headers.append("data", JSON.stringify(payload));
-      const response = await fetch("http://localhost:3000/users/checkauth", {
-        method: "POST",
-        headers: headers,
-      });
+export const AuthContextProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(authReducer, {
+    user: null,
+  });
 
-      if (response.ok) {
-        return response;
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const values = {
-    doLogin,
-    authenticated,
-    setAuthenticated,
-    storeToken,
-    avatar,
-    setAvatar,
-  };
-
+  console.log("Auth state: ", state);
   return (
-    <Authenticated.Provider value={values}>
-      {props.children}
-    </Authenticated.Provider>
+    <AuthContext.Provider value={{ ...state, dispatch }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
-CheckAuth.propTypes;
+AuthContextProvider.propTypes;
