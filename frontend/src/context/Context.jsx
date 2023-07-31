@@ -4,8 +4,9 @@ import { createContext } from "react";
 export const CourseDetails = createContext();
 
 export const CourseData = (props) => {
+  const value = {};
   return (
-    <CourseDetails.Provider value={[courses, setCourses]}>
+    <CourseDetails.Provider value={value}>
       {props.children}
     </CourseDetails.Provider>
   );
