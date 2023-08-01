@@ -11,38 +11,19 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { Link } from "react-router-dom";
+import { useSignup } from "../hooks/useSignup";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
+  const { signup, isLoading, error } = useSignup();
 
   const navigate = useNavigate();
 
-  const storeToken = (token) => {
-    const exists = localStorage.getItem("token");
-    if (exists) {
-      localStorage.removeItem("token");
-      localStorage.setItem("token", token);
-    }
-    localStorage.setItem("token", token);
-  };
-
-  const onSignup = async () => {
-    const payload = { username, password };
-    const response = await fetch("http://localhost:3000/admin/signup", {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (response.ok) {
-      const data = await response.json();
-      storeToken(data.token);
-      navigate("/");
-    }
+  const onSignup = async (e) => {
+    e.preventDefault();
+    await signup(username, password);
   };
   const paperStyle = {
     padding: 20,
@@ -86,6 +67,7 @@ const SignUp = () => {
           onChange={() => setShowPass(!showPass)}
         />
         <Button
+          disabled={isLoading}
           type="submit"
           color="primary"
           variant="contained"
@@ -108,6 +90,9 @@ const SignUp = () => {
             Login
           </span>
         </Typography>
+        <Button variant="error" disabled>
+          {error}
+        </Button>
       </Paper>
     </Grid>
   );

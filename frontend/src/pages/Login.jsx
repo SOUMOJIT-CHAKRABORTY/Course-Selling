@@ -11,56 +11,19 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLogin } from "../hooks/useLogin";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
-  const [avatar, setAvatar] = useState("");
+  const { login, error, isLoading } = useLogin();
 
   const navigate = useNavigate();
 
-  const storeToken = (token) => {
-    const exists = localStorage.getItem("token");
-    if (exists) {
-      localStorage.removeItem("token");
-      localStorage.setItem("token", token);
-    } else {
-      localStorage.setItem("token", token);
-    }
-  };
-
-  const handleLogin = async () => {
-    try {
-      const payload = {
-        username: username,
-        password: password,
-      };
-      setAvatar(payload.username.split("")[0]);
-      // const headers = new Headers();
-      // headers.append("Content-Type", "application/json");
-      const response = await fetch("http://localhost:3000/admin/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          username: `${username}`,
-          password: `${password}`,
-        },
-        // body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        storeToken(data.token);
-        localStorage.setItem("avatar", avatar);
-        navigate("/courses");
-        console.log(data.message);
-      } else {
-        console.log("Login failed");
-      }
-    } catch (err) {
-      console.log(err);
-    }
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    login(username, password);
   };
 
   const paperStyle = {
@@ -107,6 +70,7 @@ const Login = () => {
             onChange={() => setShowPass(!showPass)}
           />
           <Button
+            disabled={isLoading}
             type="submit"
             color="primary"
             variant="contained"
@@ -126,6 +90,7 @@ const Login = () => {
               Sign Up
             </span>
           </Typography>
+          <Button disabled>{error}</Button>
         </Paper>
       </Grid>
     </div>

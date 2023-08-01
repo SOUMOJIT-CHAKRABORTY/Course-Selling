@@ -5,6 +5,9 @@ import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useLogout } from "../hooks/useLogout";
+// import { Avatar } from "@mui/material";
 
 // import { deepOrange } from "@mui/material/colors";
 // import { Avatar } from "@mui/material";
@@ -22,6 +25,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const Nav = () => {
   const [hideNav, setHideNav] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuthContext();
+  const logout = useLogout();
 
   useEffect(() => {
     setInterval(() => {
@@ -38,9 +43,10 @@ const Nav = () => {
     }, 100);
   }, []);
 
-  // const avatar = localStorage.getItem("avatar");
+  const handleLogout = () => {
+    logout();
+  };
 
-  // const message = "You are logged in";
   return (
     <div className="flex pb-10  justify-between items-center z-100">
       <div
@@ -51,23 +57,29 @@ const Nav = () => {
       </div>
       {!hideNav && (
         <div className="flex space-x-6 ">
-          <IconButton aria-label="cart">
-            <StyledBadge badgeContent={0} color="secondary">
-              <ShoppingCartIcon />
-            </StyledBadge>
-          </IconButton>
-          <Button onClick={() => navigate("/login")} variant="outlined">
-            Login
-          </Button>
-          <Button variant="contained" onClick={() => navigate("/signup")}>
-            Get started
-          </Button>
-          {/* <div>
-          <Avatar sx={{ bgcolor: deepOrange[500], cursor: "pointer" }}>
-            {avatar}
-          </Avatar>
-          <ShowAlert message={message} />
-        </div> */}
+          {user && (
+            <div>
+              <span>{user.username}</span>
+              <Button variant="contained" onClick={handleLogout}>
+                Logout
+              </Button>
+            </div>
+          )}
+          {!user && (
+            <div className="flex space-x-6">
+              <IconButton aria-label="cart">
+                <StyledBadge badgeContent={0} color="secondary">
+                  <ShoppingCartIcon />
+                </StyledBadge>
+              </IconButton>
+              <Button onClick={() => navigate("/login")} variant="outlined">
+                Login
+              </Button>
+              <Button variant="contained" onClick={() => navigate("/signup")}>
+                Get started
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>
