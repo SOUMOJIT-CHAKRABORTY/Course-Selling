@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 
 export const AuthContext = createContext();
 
@@ -21,6 +21,13 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
   });
+
+  useEffect(() => {
+    const curUser = JSON.parse(localStorage.getItem("curUser"));
+    if (curUser) {
+      dispatch({ type: "LOGIN", payload: { ...curUser } });
+    }
+  }, []);
 
   console.log("Auth state: ", state);
   return (

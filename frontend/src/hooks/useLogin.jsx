@@ -29,7 +29,7 @@ export const useLogin = () => {
     }
     if (response.ok) {
       // Storing data in localstorage
-      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("curUser", JSON.stringify(data));
 
       // Updating context
       dispatch({ type: "LOGIN", payload: data });
