@@ -34,7 +34,7 @@ exports.signupAdmin = async (req, res) => {
     const token = jwt.sign({ username, role: "admin" }, AdminSecret, {
       expiresIn: "1h",
     });
-    res.json({ message: "Admin created", token });
+    res.json({ message: "Admin created", token: token, username: username });
   }
 };
 exports.loginAdmin = async (req, res) => {
@@ -46,7 +46,11 @@ exports.loginAdmin = async (req, res) => {
     const token = jwt.sign({ username, role: "admin" }, AdminSecret, {
       expiresIn: "1h",
     });
-    res.json({ message: "Logged in successfully", token });
+    res.json({
+      message: "Logged in successfully",
+      token: token,
+      username: username,
+    });
   } else {
     res.status(403).json({ message: "invaild username or password" });
   }
