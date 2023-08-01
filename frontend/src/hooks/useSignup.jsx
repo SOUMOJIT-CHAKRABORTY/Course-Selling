@@ -37,7 +37,7 @@ export const useSignup = () => {
 
       setIsLoading(false);
       // Navigate
-      navaigate("/");
+      navaigate("/courses");
     }
   };
 

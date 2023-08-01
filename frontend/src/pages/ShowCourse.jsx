@@ -2,19 +2,17 @@
 // import { CourseDetails } from "../context/Context";
 import { useEffect, useState } from "react";
 import Cards from "../components/Cards";
-// import { Authenticated } from "../context/Autherticate";
-// import PermanentDrawerLeft from "../components/Drawer";
 import { Backdrop, Box, CircularProgress, Stack } from "@mui/material";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const ShowCourse = () => {
-  // const [courses] = useContext(CourseDetails);
+  const { user } = useAuthContext();
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token");
       const headers = new Headers();
-      headers.append("Authorization", `Bearer ${token}`);
+      headers.append("Authorization", `Bearer ${user.token}`);
       const response = await fetch("http://localhost:3000/admin/courses", {
         method: "GET",
         headers: headers,
@@ -25,7 +23,7 @@ const ShowCourse = () => {
       setCourses(data.courses);
     };
     fetchData();
-  }, []);
+  }, [user]);
   // const { authenticated } = useContext(Authenticated);
   if (courses.length === 0) {
     return (

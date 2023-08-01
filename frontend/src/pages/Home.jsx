@@ -53,12 +53,12 @@ const Home = () => {
           />
         </div>
       </div>
-      <div className="flex mt-20 justify-center md:space-x-10 lg:space-x-14 xl:space-x-20">
-        <img src={Google} className="bg-white h-16" alt="" />
-        <img src={Airbnb} className="bg-white h-16" alt="" />
-        <img src={Shopify} className="bg-white h-16" alt="" />
-        <img src={Cm} className="bg-white h-16" alt="" />
-        <img src={Amazon} className="bg-white h-16" alt="" />
+      <div className="grid grid-cols-3 lg:grid-cols-5 mt-20 justify-center items-center">
+        <img src={Google} className="bg-white md:h-16" alt="" />
+        <img src={Airbnb} className="bg-white md:h-16" alt="" />
+        <img src={Shopify} className="bg-white md:h-16" alt="" />
+        <img src={Cm} className="bg-white md:h-16" alt="" />
+        <img src={Amazon} className="bg-white md:h-16" alt="" />
       </div>
     </div>
   );

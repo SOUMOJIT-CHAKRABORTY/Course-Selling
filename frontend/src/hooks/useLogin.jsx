@@ -36,7 +36,7 @@ export const useLogin = () => {
 
       // Loding false
       setIsLoading(false);
-      navigate("/");
+      navigate("/courses");
     }
   };
 

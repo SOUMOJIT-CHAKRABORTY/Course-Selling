@@ -10,10 +10,7 @@ import { useLogout } from "../hooks/useLogout";
 import { Avatar, MenuItem, Tooltip } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
+import Add from "@mui/icons-material/Add";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -26,17 +23,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Nav = () => {
   const [hideNav, setHideNav] = useState(false);
-  const navigate = useNavigate();
-  const { user } = useAuthContext();
-  const logout = useLogout();
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [avatar, setAvatar] = useState(null);
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+  const logout = useLogout();
 
   useEffect(() => {
     setInterval(() => {
@@ -51,14 +42,25 @@ const Nav = () => {
 
       findPage();
     }, 100);
-  }, []);
+
+    setTimeout(() => {
+      setAvatar(user.username.split("")[0]);
+    }, 200);
+  }, [user]);
+
+  const opened = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleLogout = () => {
     logout();
   };
 
   // const avatar = user.username.split("")[0];
-  const avatar = "a";
   return (
     <div className="flex pb-10  justify-between items-center z-100">
       <div
@@ -86,7 +88,7 @@ const Nav = () => {
               <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
-                open={open}
+                open={opened}
                 onClose={handleClose}
                 onClick={handleClose}
                 PaperProps={{
@@ -118,30 +120,15 @@ const Nav = () => {
                 transformOrigin={{ horizontal: "right", vertical: "top" }}
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
-                <MenuItem onClick={handleClose}>
-                  <Avatar /> Profile
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <Avatar /> My account
-                </MenuItem>
-                <Divider />
-                <MenuItem onClick={handleClose}>
+                <MenuItem
+                  onClick={() => {
+                    navigate("/create-new-course");
+                  }}
+                >
                   <ListItemIcon>
-                    <PersonAdd fontSize="small" />
+                    <Add fontSize="small" />
                   </ListItemIcon>
-                  Add another account
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <ListItemIcon>
-                    <Settings fontSize="small" />
-                  </ListItemIcon>
-                  Settings
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <ListItemIcon>
-                    <Logout fontSize="small" />
-                  </ListItemIcon>
-                  Logout
+                  Add new course
                 </MenuItem>
               </Menu>
               <Button variant="contained" onClick={handleLogout}>
