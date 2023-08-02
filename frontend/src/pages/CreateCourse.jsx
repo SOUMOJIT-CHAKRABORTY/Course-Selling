@@ -7,11 +7,13 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const CreateCourse = () => {
   const [banner, setBanner] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const { user } = useAuthContext();
   const paperStyle = {
     padding: 20,
     height: "70vh",
@@ -20,9 +22,20 @@ const CreateCourse = () => {
   };
   const btnstyle = { margin: "8px 0" };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(banner);
+    const payload = { title, description, imageLink: banner };
+    console.log(payload);
+    const response = await fetch("http://localhost:3000/admin/courses", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    console.log(data.message);
   };
   return (
     <div>

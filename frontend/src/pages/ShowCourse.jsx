@@ -24,7 +24,7 @@ const ShowCourse = () => {
     };
     fetchData();
   }, [user]);
-  // const { authenticated } = useContext(Authenticated);
+
   if (courses.length === 0) {
     return (
       <div>
