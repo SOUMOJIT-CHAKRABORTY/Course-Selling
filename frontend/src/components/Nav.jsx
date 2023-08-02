@@ -122,7 +122,7 @@ const Nav = () => {
               >
                 <MenuItem
                   onClick={() => {
-                    navigate("/create-new-course");
+                    navigate("/new-course");
                   }}
                 >
                   <ListItemIcon>
