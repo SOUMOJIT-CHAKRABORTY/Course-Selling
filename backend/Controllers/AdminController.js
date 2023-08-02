@@ -56,6 +56,7 @@ exports.loginAdmin = async (req, res) => {
   }
 };
 exports.createCourse = async (req, res) => {
+  console.log(req.file);
   const course = new Course(req.body);
   await course.save();
   res.json({ message: "Course created successfully", courseId: course.id });

@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const { mongoose } = require("mongoose");
+const multer = require("multer");
 const dotenv = require("dotenv");
 
 const UserRoute = require("./routes/UserRoutes");

@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 const {
   signupAdmin,
@@ -17,7 +19,12 @@ router.post("/checkauth", authenticateAdmin, isLogin);
 
 router.post("/login", loginAdmin);
 
-router.post("/courses", authenticateAdmin, createCourse);
+router.post(
+  "/courses",
+  authenticateAdmin,
+  upload.single("avatar"),
+  createCourse
+);
 
 router.put("/courses/:courseId", authenticateAdmin, updateCourse);
 
