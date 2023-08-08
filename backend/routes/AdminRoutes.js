@@ -12,6 +12,7 @@ const {
   authenticateAdmin,
   isLogin,
 } = require("../Controllers/AdminController");
+const { uploadImage } = require("../middlewares/multer");
 
 router.post("/signup", signupAdmin);
 
@@ -22,7 +23,7 @@ router.post("/login", loginAdmin);
 router.post(
   "/courses",
   authenticateAdmin,
-  upload.single("avatar"),
+  uploadImage.single("avatar"),
   createCourse
 );
 
