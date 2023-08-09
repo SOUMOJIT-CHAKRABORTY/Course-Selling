@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const CreateCourse = () => {
-  const [banner, setBanner] = useState("");
+  const [banner, setBanner] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { user } = useAuthContext();
@@ -24,16 +24,21 @@ const CreateCourse = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { title, description, imageLink: banner };
+    const payload = new FormData(); // Use FormData to handle files
+    payload.append("title", title);
+    payload.append("description", description);
+    payload.append("avatar", banner); // Append the banner file
+
     console.log(payload);
+
     const response = await fetch("http://localhost:3000/admin/courses", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${user.token}`,
       },
-      body: JSON.stringify(payload),
+      body: payload, // Send the FormData object
     });
+
     const data = await response.json();
     console.log(data.message);
   };
