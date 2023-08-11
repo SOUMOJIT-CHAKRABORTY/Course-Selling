@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Hero from "../assets/Hero.jpg";
 import Google from "../assets/google.png";
@@ -6,9 +6,11 @@ import Airbnb from "../assets/airbnb.png";
 import Cm from "../assets/CreativeMarket.png";
 import Amazon from "../assets/amazon.png";
 import Shopify from "../assets/shopify.png";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Home = () => {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
 
   return (
     <div className="mt-12">
@@ -33,9 +35,17 @@ const Home = () => {
             of courses tailored to your unique goals and aspirations.`}
           </div>
           <div className="mt-10 flex  items-center  space-x-8 text-xl">
-            <Button onClick={() => navigate("/signup")}>Get started</Button>
+            {!user && (
+              <Button onClick={() => navigate("/signup")}>Get started</Button>
+            )}
             <Button
-              onClick={() => navigate("/login")}
+              onClick={() => {
+                if (user === null) {
+                  navigate("/login");
+                } else {
+                  navigate("/courses");
+                }
+              }}
               variant="contained"
               sx={{
                 color: "#fff",
@@ -53,13 +63,26 @@ const Home = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-3 lg:grid-cols-5 mt-20 justify-center items-center">
-        <img src={Google} className="bg-white md:h-16" alt="" />
-        <img src={Airbnb} className="bg-white md:h-16" alt="" />
-        <img src={Shopify} className="bg-white md:h-16" alt="" />
-        <img src={Cm} className="bg-white md:h-16" alt="" />
-        <img src={Amazon} className="bg-white md:h-16" alt="" />
-      </div>
+      <Grid
+        sx={{ flexGrow: 1, margin: 5 }}
+        container
+        spacing={12}
+        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+      >
+        <Grid item xs={12}>
+          <Grid container justifyContent="between" spacing={2}>
+            <img src={Google} className="bg-white md:h-16" alt="" />
+
+            <img src={Airbnb} className="bg-white md:h-16" alt="" />
+
+            <img src={Shopify} className="bg-white md:h-16" alt="" />
+
+            <img src={Cm} className="bg-white md:h-16" alt="" />
+
+            <img src={Amazon} className="bg-white md:h-16" alt="" />
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 };

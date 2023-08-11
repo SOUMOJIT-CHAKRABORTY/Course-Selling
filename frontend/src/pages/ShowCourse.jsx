@@ -2,7 +2,14 @@
 // import { CourseDetails } from "../context/Context";
 import { useEffect, useState } from "react";
 import Cards from "../components/Cards";
-import { Backdrop, Box, CircularProgress, Stack } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  CircularProgress,
+  Grid,
+  Paper,
+  Stack,
+} from "@mui/material";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const ShowCourse = () => {
@@ -41,23 +48,25 @@ const ShowCourse = () => {
 
   return (
     <div>
-      <Stack spacing={4}>
+      <Grid container sx={{ flexGrow: 1 }} spacing={2}>
         {/* <div>{authenticated && <PermanentDrawerLeft />}</div> */}
-        <Stack direction={"row"} spacing={4}>
-          {courses &&
-            courses.map((course) => {
-              return (
-                <Box key={course.title}>
-                  <Cards
-                    title={course.title}
-                    description={course.description}
-                    courseId={course._id}
-                  />
-                </Box>
-              );
-            })}
-        </Stack>
-      </Stack>
+        <Grid item xs={12}>
+          <Grid container justifyContent="center" spacing={2}>
+            {courses &&
+              courses.map((course) => {
+                return (
+                  <Paper key={course._id} sx={{ margin: 4 }}>
+                    <Cards
+                      title={course.title}
+                      description={course.description}
+                      courseId={course._id}
+                    />
+                  </Paper>
+                );
+              })}
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 };
